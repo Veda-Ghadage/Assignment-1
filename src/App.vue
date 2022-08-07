@@ -26,7 +26,14 @@
       </div>
 
       <v-spacer></v-spacer>
-
+      <v-btn
+        to="/"
+        text
+        style="margin-right: 10px"
+      >
+        <span class="mr-2">Add Users</span>
+        <!-- <v-icon>mdi-open-in-new</v-icon> -->
+      </v-btn>
       <v-btn
         to="/viewuser"
         text
