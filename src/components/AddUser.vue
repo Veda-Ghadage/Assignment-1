@@ -99,7 +99,7 @@ export default {
       v => (v && v.length <= 10) || 'Name must be less than 10 characters'
     ],
     mobilenoRules: [
-      v => !!v || 'Name is required',
+      v => !!v || 'Mobile Number is required',
       v => (v && v.length <= 10) || 'Mobile Number Is Required'
     ],
     select: null,
