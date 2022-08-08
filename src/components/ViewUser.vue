@@ -53,7 +53,7 @@
         color="grey"
 
       >
-      <img src= 'https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg' alt="">
+      <img :src='userimage' alt="">
       </v-list-item-avatar>
     </v-list-item>
 
@@ -90,37 +90,27 @@
   >
     <v-text-field
       v-model="name"
-      :counter="10"
-      :rules="nameRules"
       label="Name"
     ></v-text-field>
 
     <v-text-field
       v-model="age"
-      :counter="10"
-      :rules="nameRules"
       label="Age"
     ></v-text-field>
 
     <v-text-field
       v-model="occupation"
-      :counter="10"
-      :rules="nameRules"
       label="Occupation"
     ></v-text-field>
 
     <v-text-field
       v-model="address"
-      :counter="10"
-      :rules="nameRules"
       label="Address"
-      required
     ></v-text-field>
 
     <v-select
       v-model="select"
       :items="items"
-      :rules="[v => !!v || 'Item is required']"
       label="Gender"
     ></v-select>
 
@@ -172,6 +162,7 @@
 export default {
   data () {
     return {
+      valid: true,
       name: '',
       age: '',
       occupation: '',
@@ -180,7 +171,20 @@ export default {
       select: '',
       alert: false,
       alertedit: false,
-      dialog: false
+      dialog: false,
+      userimage: '',
+      mobilenoRules: [
+        v => !!v || 'Name is required',
+        v => (v && v.length <= 10) || 'Mobile Number Is Required'
+      ],
+      items: [
+        'Female',
+        'Male'
+      ],
+      nameRules: [
+        v => !!v || 'Name is required',
+        v => (v && v.length <= 10) || 'Name must be less than 10 characters'
+      ]
     }
   },
   created () {
@@ -194,6 +198,7 @@ export default {
       this.address = localStorage.getItem('address')
       this.mobileno = localStorage.getItem('mobileno')
       this.select = localStorage.getItem('gender')
+      this.userimage = localStorage.getItem('img')
     },
     editDetails () {
       localStorage.setItem('name', this.name)

@@ -20,37 +20,27 @@
   >
     <v-text-field
       v-model="name"
-      :counter="10"
-      :rules="nameRules"
       label="Name"
     ></v-text-field>
 
     <v-text-field
       v-model="age"
-      :counter="10"
-      :rules="nameRules"
       label="Age"
     ></v-text-field>
 
     <v-text-field
       v-model="occupation"
-      :counter="10"
-      :rules="nameRules"
       label="Occupation"
     ></v-text-field>
 
     <v-text-field
       v-model="address"
-      :counter="10"
-      :rules="nameRules"
       label="Address"
-      required
     ></v-text-field>
 
     <v-select
       v-model="select"
       :items="items"
-      :rules="[v => !!v || 'Item is required']"
       label="Gender"
     ></v-select>
 
@@ -61,11 +51,12 @@
       required
     ></v-text-field>
 
-    <v-file-input
-    accept="image/*"
-    label="File input"
-    v-model="userimage"
-  ></v-file-input>
+    <input
+    label="selecte image"
+    type="file"
+    @change="onFileChange"
+  >
+  <br>
 
     <v-btn
       :disabled="!valid"
@@ -101,6 +92,7 @@ export default {
     address: '',
     mobileno: '',
     userimage: '',
+    image: '',
 
     nameRules: [
       v => !!v || 'Name is required',
@@ -121,7 +113,7 @@ export default {
   methods: {
     validate () {
       // this.$refs.form.validate()
-      // console.log(this.$refs.form.validate())
+      // console.log(this.userimage)
       if (this.$refs.form.validate()) {
         localStorage.setItem('name', this.name)
         localStorage.setItem('age', this.age)
@@ -129,8 +121,35 @@ export default {
         localStorage.setItem('address', this.address)
         localStorage.setItem('gender', this.select)
         localStorage.setItem('mobileno', this.mobileno)
+        localStorage.setItem('userimage', this.userimage)
         this.alert = true
       }
+    },
+    set (key) {
+      // var vm = this
+      try {
+        localStorage.setItem(key, this.image)
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    onFileChange (e) {
+      var files = e.target.files || e.dataTransfer.files
+      if (!files.length) {
+        return
+      }
+      this.createImage(files[0])
+    },
+    createImage (file) {
+      // var image = new Image()
+      var render = new FileReader()
+      var vm = this
+
+      render.onload = (e) => {
+        vm.image = e.target.result
+        vm.set('img')
+      }
+      render.readAsDataURL(file)
     },
     reset () {
       this.$refs.form.reset()
